@@ -5,7 +5,7 @@ function Main(props) {
       <section className="profile container">
         <button
           className="profile__btn-edit-avatar"
-          onClick={() => {props.onEditAvatar(true)}}>
+          onClick={() => props.onEditAvatar(true)}>
           <img src="#" alt="#" className="profile__avatar" />
         </button>
 
@@ -15,7 +15,7 @@ function Main(props) {
             <button
               type="button"
               className="profile__edit-btn"
-              onClick={() => {props.onEditProfile(true)}}>
+              onClick={() => props.onEditProfile(true)}>
             </button>
           </div>
           <h2 className="profile__subtitle">Подзаголовок</h2>
@@ -23,7 +23,7 @@ function Main(props) {
         <button
           type="button"
           className="profile__add-btn"
-          onClick={() => {props.onAddPlace(true)}}>
+          onClick={() => props.onAddPlace(true)}>
         </button>
       </section>
 

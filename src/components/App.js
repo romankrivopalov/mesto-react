@@ -7,7 +7,12 @@ import PopupWithForm from './PopupWithForm.js';
 function App() {
   const [ isEditAvatarPopupOpen, setIsEditAvatarPopupOpen ] = useState(false),
         [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false),
-        [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false);
+        [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false),
+        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen]
+
+  function closeAllPopups() {
+    allSetsPopupOpen.forEach(item => item(false));
+  }
 
   return (
     <div className="App">
@@ -24,7 +29,8 @@ function App() {
         name='avatar'
         title='Обновить аватар'
         btnText='Сохранить'
-        isOpen={isEditAvatarPopupOpen}>
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}>
           <label className="popup__input-wrapper">
             <input
             type="url"
@@ -41,7 +47,8 @@ function App() {
         name='profile'
         title='Редактировать профиль'
         btnText='Сохранить'
-        isOpen={isEditProfilePopupOpen}>
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}>
           <label className="popup__input-wrapper">
             <input
             type="text"
@@ -73,7 +80,8 @@ function App() {
         name='card'
         title='Новое место'
         btnText='Создать'
-        isOpen={isAddPlacePopupOpen}>
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}>
           <label className="popup__input-wrapper">
             <input
             type="text"
