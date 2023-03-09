@@ -1,22 +1,11 @@
-function Main() {
-  function handleEditAvatarClick() {
-    document.querySelector('[data-type="avatar-popup"]').classList.add('popup_opened');
-  }
-
-  function handleEditProfileClick() {
-    document.querySelector('[data-type="edit-popup"]').classList.add('popup_opened');
-  }
-
-  function handleAddPlaceClick() {
-    document.querySelector('[data-type="add-popup"]').classList.add('popup_opened');
-  }
+function Main(props) {
 
   return (
     <main>
       <section className="profile container">
         <button
           className="profile__btn-edit-avatar"
-          onClick={handleEditAvatarClick}>
+          onClick={() => {props.onEditAvatar(true)}}>
           <img src="#" alt="#" className="profile__avatar" />
         </button>
 
@@ -26,7 +15,7 @@ function Main() {
             <button
               type="button"
               className="profile__edit-btn"
-              onClick={handleEditProfileClick}>
+              onClick={() => {props.onEditProfile(true)}}>
             </button>
           </div>
           <h2 className="profile__subtitle">Подзаголовок</h2>
@@ -34,7 +23,7 @@ function Main() {
         <button
           type="button"
           className="profile__add-btn"
-          onClick={handleAddPlaceClick}>
+          onClick={() => {props.onAddPlace(true)}}>
         </button>
       </section>
 

@@ -1,105 +1,105 @@
+import { useState } from 'react';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
+import PopupWithForm from './PopupWithForm.js';
 
 function App() {
+  const [ isEditAvatarPopupOpen, setIsEditAvatarPopupOpen ] = useState(false),
+        [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false),
+        [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false);
+
   return (
     <div className="App">
+
       <Header />
-      <Main />
+      <Main
+        onEditAvatar={setIsEditAvatarPopupOpen}
+        onEditProfile={setIsEditProfilePopupOpen}
+        onAddPlace={setIsAddPlacePopupOpen}
+        />
       <Footer />
 
-      <section data-type="avatar-popup" className="popup">
-        <div className="popup__container">
-          <button type="button" className="popup__close"></button>
-          <h2 className="popup__title">Обновить аватар</h2>
-          <form className="popup__form" name="avatar-form" noValidate>
+      <PopupWithForm
+        name='avatar'
+        title='Обновить аватар'
+        btnText='Сохранить'
+        isOpen={isEditAvatarPopupOpen}>
+          <label className="popup__input-wrapper">
+            <input
+            type="url"
+            id="input-link-avatar"
+            name="link"
+            className="popup__input popup__input_type_avatar"
+            placeholder="Ссылка на картинку"
+            required />
+            <span className="popup__input-error input-link-avatar-error"></span>
+          </label>
+      </PopupWithForm>
 
-            <label className="popup__input-wrapper">
-              <input
-              type="url"
-              id="input-link-avatar"
-              name="link"
-              className="popup__input popup__input_type_avatar"
-              placeholder="Ссылка на картинку"
-              required />
-              <span className="popup__input-error input-link-avatar-error"></span>
-            </label>
+      <PopupWithForm
+        name='profile'
+        title='Редактировать профиль'
+        btnText='Сохранить'
+        isOpen={isEditProfilePopupOpen}>
+          <label className="popup__input-wrapper">
+            <input
+            type="text"
+            id="input-name"
+            name="name"
+            className="popup__input popup__input_type_name"
+            placeholder="Введите ваше имя"
+            minLength="2"
+            maxLength="40"
+            required />
+            <span className="popup__input-error input-name-error"></span>
+          </label>
 
-            <button type="submit" className="popup__submit-btn">Сохранить</button>
-          </form>
-        </div>
-      </section>
+          <label className="popup__input-wrapper">
+            <input
+            type="text"
+            id="input-about"
+            name="about"
+            className="popup__input popup__input_type_about"
+            placeholder="Добавьте описание"
+            minLength="2"
+            maxLength="200"
+            required />
+            <span className="popup__input-error input-about-error"></span>
+          </label>
+      </PopupWithForm>
 
-      <section data-type="edit-popup" className="popup">
-        <div className="popup__container">
-          <button type="button" className="popup__close"></button>
-          <h2 className="popup__title">Редактировать профиль</h2>
-          <form className="popup__form" name="profile-form" noValidate>
-            <label className="popup__input-wrapper">
-              <input
-              type="text"
-              id="input-name"
-              name="name"
-              className="popup__input popup__input_type_name"
-              placeholder="Введите ваше имя"
-              minLength="2"
-              maxLength="40"
-              required />
-              <span className="popup__input-error input-name-error"></span>
-            </label>
+      <PopupWithForm
+        name='card'
+        title='Новое место'
+        btnText='Создать'
+        isOpen={isAddPlacePopupOpen}>
+          <label className="popup__input-wrapper">
+            <input
+            type="text"
+            id="input-name"
+            name="name"
+            className="popup__input popup__input_type_name"
+            placeholder="Введите ваше имя"
+            minLength="2"
+            maxLength="40"
+            required />
+            <span className="popup__input-error input-name-error"></span>
+          </label>
 
-            <label className="popup__input-wrapper">
-              <input
-              type="text"
-              id="input-about"
-              name="about"
-              className="popup__input popup__input_type_about"
-              placeholder="Добавьте описание"
-              minLength="2"
-              maxLength="200"
-              required />
-              <span className="popup__input-error input-about-error"></span>
-            </label>
-
-            <button type="submit" className="popup__submit-btn">Сохранить</button>
-          </form>
-        </div>
-      </section>
-
-      <section data-type="add-popup" className="popup">
-        <div className="popup__container">
-          <button type="button" className="popup__close"></button>
-          <h2 className="popup__title">Новое место</h2>
-          <form className="popup__form" name="card-form" noValidate>
-            <label className="popup__input-wrapper">
-              <input
-              type="text"
-              id="input-img-title"
-              name="name"
-              className="popup__input popup__input_type_name"
-              placeholder="Название"
-              minLength="2"
-              maxLength="30"
-              required />
-              <span className="popup__input-error input-img-title-error"></span>
-            </label>
-
-            <label className="popup__input-wrapper">
-              <input
-              type="url"
-              id="input-link"
-              name="link"
-              className="popup__input popup__input_type_about"
-              placeholder="Ссылка на картинку"
-              required />
-              <span className="popup__input-error input-link-error"></span>
-            </label>
-
-            <button type="submit" className="popup__submit-btn">Создать</button>
-          </form>
-        </div>
-      </section>
+          <label className="popup__input-wrapper">
+            <input
+            type="text"
+            id="input-about"
+            name="about"
+            className="popup__input popup__input_type_about"
+            placeholder="Добавьте описание"
+            minLength="2"
+            maxLength="200"
+            required />
+            <span className="popup__input-error input-about-error"></span>
+          </label>
+      </PopupWithForm>
 
       <section data-type="img-popup" className="popup popup_type_show-img">
         <div className="popup__container-img">
