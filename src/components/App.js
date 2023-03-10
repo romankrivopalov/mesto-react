@@ -3,15 +3,21 @@ import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
+import ImagePopup from './ImagePopup.js';
 
 function App() {
   const [ isEditAvatarPopupOpen, setIsEditAvatarPopupOpen ] = useState(false),
         [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false),
         [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false),
-        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen]
+        [ selectedCard, setSelectedCard ] = useState(false),
+        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen, setSelectedCard];
 
   function closeAllPopups() {
     allSetsPopupOpen.forEach(item => item(false));
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card)
   }
 
   return (
@@ -22,6 +28,7 @@ function App() {
         onEditAvatar={setIsEditAvatarPopupOpen}
         onEditProfile={setIsEditProfilePopupOpen}
         onAddPlace={setIsAddPlacePopupOpen}
+        onCardClick={handleCardClick}
         />
       <Footer />
 
@@ -109,13 +116,10 @@ function App() {
           </label>
       </PopupWithForm>
 
-      <section data-type="img-popup" className="popup popup_type_show-img">
-        <div className="popup__container-img">
-          <button type="button" className="popup__close"></button>
-          <img src="#" alt="" className="popup__img" />
-          <h2 className="popup__title popup__title_type_show-img">тест</h2>
-        </div>
-      </section>
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
 
       <section data-type="confirm-popup" className="popup">
         <div className="popup__container">
@@ -125,17 +129,6 @@ function App() {
         </div>
       </section>
 
-      <template id="card">
-        <li className="card">
-          <img alt=" Изображение загруженное пользователем." className="card__img" />
-          <h2 className="card__title">Заголовок</h2>
-          <button type="button" className="card__delete"></button>
-          <div className="card__like-container">
-            <button type="button" className="card__like-icon"></button>
-            <div className="card__like-counter"></div>
-          </div>
-        </li>
-      </template>
     </div>
   );
 }

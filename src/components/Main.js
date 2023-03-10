@@ -56,6 +56,7 @@ function Main(props) {
               link={card.link}
               name={card.name}
               counter={card.likes.length}
+              onCardClick={props.onCardClick}
             />
           ))}
         </ul>
