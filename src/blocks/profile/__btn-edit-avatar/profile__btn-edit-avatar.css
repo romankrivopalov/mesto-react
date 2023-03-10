@@ -7,8 +7,9 @@
   border: none;
   font: inherit;
   color: inherit;
-  background-color: transparent;
+  background: no-repeat center/cover;
   border-radius: 50%;
+  object-fit: cover;
   overflow: hidden;
 }
 
