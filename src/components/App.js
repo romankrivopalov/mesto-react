@@ -9,11 +9,12 @@ function App() {
   const [ isEditAvatarPopupOpen, setIsEditAvatarPopupOpen ] = useState(false),
         [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false),
         [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false),
-        [ selectedCard, setSelectedCard ] = useState(false),
-        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen, setSelectedCard];
+        [ selectedCard, setSelectedCard ] = useState({name: '', link: ''}),
+        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen ];
 
   function closeAllPopups() {
     allSetsPopupOpen.forEach(item => item(false));
+    setSelectedCard({name: '', link: ''});
   }
 
   function handleCardClick(card) {
