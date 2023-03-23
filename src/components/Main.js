@@ -53,7 +53,7 @@ function Main(props) {
               id={card._id}
               link={card.link}
               name={card.name}
-              counter={card.likes.length}
+              likes={card.likes}
               onCardClick={props.onCardClick}
             />
           ))}
