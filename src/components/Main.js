@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react";
-import api from '../utils/Api.js';
+import { useEffect, useState, useContext } from "react";
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import api from '../utils/api.js';
 import Card from "./Card.js";
 
 function Main(props) {
 
-  const [ userAvatar, setUserAvatar ] = useState(''),
-        [ userName, setUserName ] = useState(''),
-        [ userDescription, setUserDescription ] = useState(''),
-        [ cards, setCards ] = useState([]);
+  const [ cards, setCards ] = useState([]);
+
+  const userData = useContext(CurrentUserContext);
 
   useEffect(() => {
-    Promise.all([ api.getUserInfo(), api.getInitialCards() ])
+    Promise.all([ api.getInitialCards() ])
       .then(res => {
-        const [ userData, cardsArray ] = res
-        setUserAvatar(userData.avatar);
-        setUserName(userData.name);
-        setUserDescription(userData.about);
+        const [ cardsArray ] = res
         setCards(cardsArray);
       })
       .catch(err => console.log(err));
@@ -25,21 +22,21 @@ function Main(props) {
     <main>
       <section className="profile container">
         <button
-          style={{ backgroundImage: `url(${userAvatar})` }}
+          style={{ backgroundImage: `url(${userData.avatar})` }}
           className="profile__btn-edit-avatar"
           onClick={() => props.onEditAvatar(true)}>
         </button>
 
         <div className="profile__info">
           <div className="profile__info-wrapper">
-            <h1 className="profile__title">{userName}</h1>
+            <h1 className="profile__title">{userData.name}</h1>
             <button
               type="button"
               className="profile__edit-btn"
               onClick={() => props.onEditProfile(true)}>
             </button>
           </div>
-          <h2 className="profile__subtitle">{userDescription}</h2>
+          <h2 className="profile__subtitle">{userData.about}</h2>
         </div>
         <button
           type="button"
