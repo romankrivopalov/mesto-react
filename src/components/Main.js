@@ -1,22 +1,10 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext } from "react";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import api from '../utils/api.js';
 import Card from "./Card.js";
 
 function Main(props) {
 
-  const [ cards, setCards ] = useState([]);
-
   const userData = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    Promise.all([ api.getInitialCards() ])
-      .then(res => {
-        const [ cardsArray ] = res
-        setCards(cardsArray);
-      })
-      .catch(err => console.log(err));
-  }, [])
 
   return (
     <main>
@@ -47,14 +35,15 @@ function Main(props) {
 
       <section className="cards container">
         <ul className="cards__list">
-          {cards.map(card => (
+          {props.cards.map(card => (
             <Card
               key={card._id}
               id={card._id}
               link={card.link}
               name={card.name}
-              likes={card.likes}
+              likes={[...card.likes]}
               onCardClick={props.onCardClick}
+              onCardLike={props.onCardLike}
             />
           ))}
         </ul>

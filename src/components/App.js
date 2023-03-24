@@ -15,9 +15,15 @@ function App() {
         [ selectedCard, setSelectedCard ] = useState({name: '', link: ''}),
         allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen ];
 
+  const [ cards, setCards ] = useState([]);
+
   useEffect(() => {
-    api.getUserInfo()
-      .then(userData => setCurrentUser(userData))
+    Promise.all([ api.getUserInfo(), api.getInitialCards() ])
+      .then(res => {
+        const [ userData, cardsArray ] = res;
+        setCards(cardsArray);
+        setCurrentUser(userData);
+      })
       .catch(err => console.log(err));
   }, [])
 
@@ -30,6 +36,15 @@ function App() {
     setSelectedCard(card)
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(isLiked, card.id)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card.id ? newCard : c));
+    });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -39,7 +54,9 @@ function App() {
           onEditAvatar={setIsEditAvatarPopupOpen}
           onEditProfile={setIsEditProfilePopupOpen}
           onAddPlace={setIsAddPlacePopupOpen}
+          cards={cards}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
           />
         <Footer />
 
