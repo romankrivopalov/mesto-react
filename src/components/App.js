@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
   const [ currentUser, setCurrentUser ] = useState({}),
@@ -29,6 +30,15 @@ function App() {
   function closeAllPopups() {
     allSetsPopupOpen.forEach(item => item(false));
     setSelectedCard({name: '', link: ''});
+  }
+
+  function handleUpdateUser(userInfo) {
+    api.setUserInfo(userInfo)
+      .then(userData => {
+        setCurrentUser(userData);
+        closeAllPopups()
+      })
+      .catch(err => console.log(err));
   }
 
   function handleCardClick(card) {
@@ -85,38 +95,11 @@ function App() {
             </label>
         </PopupWithForm>
 
-        <PopupWithForm
-          name='profile'
-          title='Редактировать профиль'
-          btnText='Сохранить'
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}>
-            <label className="popup__input-wrapper">
-              <input
-              type="text"
-              id="input-name"
-              name="name"
-              className="popup__input popup__input_type_name"
-              placeholder="Введите ваше имя"
-              minLength="2"
-              maxLength="40"
-              required />
-              <span className="popup__input-error input-name-error"></span>
-            </label>
-
-            <label className="popup__input-wrapper">
-              <input
-              type="text"
-              id="input-about"
-              name="about"
-              className="popup__input popup__input_type_about"
-              placeholder="Добавьте описание"
-              minLength="2"
-              maxLength="200"
-              required />
-              <span className="popup__input-error input-about-error"></span>
-            </label>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           name='card'
