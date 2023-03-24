@@ -39,11 +39,13 @@ function Main(props) {
             <Card
               key={card._id}
               id={card._id}
+              ownerId={card.owner._id}
               link={card.link}
               name={card.name}
               likes={[...card.likes]}
               onCardClick={props.onCardClick}
               onCardLike={props.onCardLike}
+              onCardDelete={props.onCardDelete}
             />
           ))}
         </ul>

@@ -13,9 +13,8 @@ function App() {
         [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false),
         [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false),
         [ selectedCard, setSelectedCard ] = useState({name: '', link: ''}),
-        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen ];
-
-  const [ cards, setCards ] = useState([]);
+        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen ],
+        [ cards, setCards ] = useState([]);
 
   useEffect(() => {
     Promise.all([ api.getUserInfo(), api.getInitialCards() ])
@@ -42,7 +41,14 @@ function App() {
     api.changeLikeCardStatus(isLiked, card.id)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card.id ? newCard : c));
-    });
+      })
+      .catch(err => console.log(err));
+  }
+
+  function handleCardDelete(cardId) {
+    api.deleteCard(cardId)
+      .then(() => setCards(cards.filter(c => c._id !== cardId)))
+      .catch(err => console.log(err));
   }
 
   return (
@@ -57,6 +63,7 @@ function App() {
           cards={cards}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
           />
         <Footer />
 
