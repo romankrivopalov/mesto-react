@@ -1,21 +1,29 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const inputNameRef = useRef(),
-        inputLinkRef = useRef();
+  const [ title, setTitle ] = useState({}),
+        [ link, setLink ] = useState({});
 
   useEffect(() => {
-    inputNameRef.current.value = '';
-    inputLinkRef.current.value = '';
-  }, [isOpen])
+    setTitle('');
+    setLink('');
+  }, [])
+
+  function handleChangeTitle({ target }) {
+    setTitle(target.value);
+  }
+
+  function handleChangeLink({ target }) {
+    setLink(target.value);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onAddPlace({
-      name: inputNameRef.current.value,
-      link: inputLinkRef.current.value,
+      name: title,
+      link: link,
     });
   }
 
@@ -36,7 +44,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           placeholder="Название"
           minLength="2"
           maxLength="30"
-          ref={inputNameRef}
+          onChange={handleChangeTitle}
+          value={title}
           required />
           <span className="popup__input-error input-img-title-error"></span>
         </label>
@@ -48,7 +57,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           name="link"
           className="popup__input popup__input_type_about"
           placeholder="Ссылка на картинку"
-          ref={inputLinkRef}
+          onChange={handleChangeLink}
+          value={link}
           required/>
           <span className="popup__input-error input-link-error"></span>
         </label>
