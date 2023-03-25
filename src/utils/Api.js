@@ -33,13 +33,11 @@ class Api {
     .then(res => this._checkStatusRequest(res))
   }
 
-  updateAvatar(newAvatarLink) {
+  updateAvatar(avatarData) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify({
-        avatar : newAvatarLink
-      })
+      body: JSON.stringify(avatarData)
     })
     .then(res => this._checkStatusRequest(res))
   }
@@ -55,10 +53,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({
-        name: cardElement.name,
-        link: cardElement.link
-      })
+      body: JSON.stringify(cardElement)
     })
     .then(res => this._checkStatusRequest(res))
   }
@@ -73,9 +68,9 @@ class Api {
     })
   }
 
-  likeCard(request, cardId) {
+  changeLikeCardStatus(isLiked, cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: request,
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: this._headers,
     })
     .then(err => {
