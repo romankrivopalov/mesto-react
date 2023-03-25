@@ -5,6 +5,7 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 
@@ -32,17 +33,26 @@ function App() {
     setSelectedCard({name: '', link: ''});
   }
 
+  function handleUpdateAvatar(avatarData) {
+    api.updateAvatar(avatarData)
+      .then(userData => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err));
+  }
+
   function handleUpdateUser(userInfo) {
     api.setUserInfo(userInfo)
       .then(userData => {
         setCurrentUser(userData);
-        closeAllPopups()
+        closeAllPopups();
       })
       .catch(err => console.log(err));
   }
 
   function handleCardClick(card) {
-    setSelectedCard(card)
+    setSelectedCard(card);
   }
 
   function handleCardLike(card) {
@@ -77,23 +87,11 @@ function App() {
           />
         <Footer />
 
-        <PopupWithForm
-          name='avatar'
-          title='Обновить аватар'
-          btnText='Сохранить'
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}>
-            <label className="popup__input-wrapper">
-              <input
-              type="url"
-              id="input-link-avatar"
-              name="link"
-              className="popup__input popup__input_type_avatar"
-              placeholder="Ссылка на картинку"
-              required />
-              <span className="popup__input-error input-link-avatar-error"></span>
-            </label>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
