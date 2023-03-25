@@ -7,6 +7,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
+import ConfirmPopup from './ConfirmPopup';
 import api from '../utils/api';
 
 function App() {
@@ -15,7 +16,12 @@ function App() {
         [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false),
         [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false),
         [ selectedCard, setSelectedCard ] = useState({name: '', link: ''}),
-        allSetsPopupOpen = [setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen, setIsAddPlacePopupOpen ],
+        [ cardToDelete, setCardToDelete ] = useState(null),
+        allSetsPopupOpen = [
+          setIsEditAvatarPopupOpen,
+          setIsEditProfilePopupOpen,
+          setIsAddPlacePopupOpen,
+        ],
         [ cards, setCards ] = useState([]);
 
   useEffect(() => {
@@ -31,6 +37,7 @@ function App() {
   function closeAllPopups() {
     allSetsPopupOpen.forEach(item => item(false));
     setSelectedCard({name: '', link: ''});
+    setCardToDelete(null);
   }
 
   function handleUpdateAvatar(avatarData) {
@@ -75,8 +82,15 @@ function App() {
   }
 
   function handleCardDelete(cardId) {
-    api.deleteCard(cardId)
-      .then(() => setCards(cards.filter(c => c._id !== cardId)))
+    setCardToDelete(cardId);
+  }
+
+  function handleConfirmBeforeDelete() {
+    api.deleteCard(cardToDelete)
+      .then(() => {
+        setCards(cards.filter(c => c._id !== cardToDelete))
+        closeAllPopups();
+      })
       .catch(err => console.log(err));
   }
 
@@ -119,13 +133,11 @@ function App() {
           onClose={closeAllPopups}
         />
 
-        <section data-type="confirm-popup" className="popup">
-          <div className="popup__container">
-            <button type="button" className="popup__close"></button>
-            <h2 className="popup__title">Вы уверены?</h2>
-            <button type="button" className="popup__submit-btn popup__submit-btn_place_confirm">Да</button>
-          </div>
-        </section>
+        <ConfirmPopup
+          isOpen={!!cardToDelete}
+          onClose={closeAllPopups}
+          onConfirm={handleConfirmBeforeDelete}
+        />
 
       </div>
     </CurrentUserContext.Provider>
