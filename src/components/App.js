@@ -3,9 +3,9 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
-import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import EditProfilePopup from './EditProfilePopup';
+import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 
@@ -46,6 +46,15 @@ function App() {
     api.setUserInfo(userInfo)
       .then(userData => {
         setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err));
+  }
+
+  function handleAddPlaceSubmit(cardData) {
+    api.postNewCard(cardData)
+      .then(newCard => {
+        setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch(err => console.log(err));
@@ -99,38 +108,11 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-        <PopupWithForm
-          name='card'
-          title='Новое место'
-          btnText='Создать'
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}>
-            <label className="popup__input-wrapper">
-              <input
-              type="text"
-              id="input-name"
-              name="name"
-              className="popup__input popup__input_type_name"
-              placeholder="Введите ваше имя"
-              minLength="2"
-              maxLength="40"
-              required />
-              <span className="popup__input-error input-name-error"></span>
-            </label>
-
-            <label className="popup__input-wrapper">
-              <input
-              type="text"
-              id="input-about"
-              name="about"
-              className="popup__input popup__input_type_about"
-              placeholder="Добавьте описание"
-              minLength="2"
-              maxLength="200"
-              required />
-              <span className="popup__input-error input-about-error"></span>
-            </label>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         <ImagePopup
           card={selectedCard}

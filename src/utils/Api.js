@@ -53,10 +53,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({
-        name: cardElement.name,
-        link: cardElement.link
-      })
+      body: JSON.stringify(cardElement)
     })
     .then(res => this._checkStatusRequest(res))
   }
