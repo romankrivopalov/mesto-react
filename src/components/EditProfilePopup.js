@@ -14,13 +14,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   }, [currentUser, isOpen]);
 
   function handleChangeName({ target }) {
-    const text = target.value;
-    setName(text);
+    setName(target.value);
   }
 
   function handleChangeDescription({ target }) {
-    const text = target.value;
-    setDescription(text);
+    setDescription(target.value);
   }
 
   function handleSubmit(e) {
