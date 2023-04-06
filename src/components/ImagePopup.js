@@ -3,9 +3,7 @@ function ImagePopup({ card, onClose}) {
   return (
     <section
       data-type="img-popup"
-      className={!card.link
-        ? "popup popup_type_show-img"
-        : "popup popup_type_show-img popup_opened"}>
+      className={`popup popup_type_show-img ${card.link ? 'popup_opened' : ''}`}>
       <div className="popup__container-img">
         <button
           type="button"

@@ -11,7 +11,7 @@ function PopupWithForm({
   return (
     <section
       data-type={`${name}-popup`}
-      className={!isOpen ? "popup" : "popup popup_opened"}
+      className={`popup ${!isOpen ? '' : 'popup popup_opened'}`}
       onClick={({ target }) => {
         if (target.classList.contains('popup_opened') || target.classList.contains('popup__close')) {
           onClose();
