@@ -1,12 +1,15 @@
-function PopupWithForm({
+import { forwardRef } from 'react';
+
+const PopupWithForm = forwardRef(({
   name,
   title,
   btnText,
   isOpen,
   onClose,
   onSubmit,
-  children
-  }) {
+  children,
+  isValid
+  }, ref) => {
 
   return (
     <section
@@ -25,16 +28,22 @@ function PopupWithForm({
         </button>
         <h2 className="popup__title">{title}</h2>
         <form
+          ref={ref}
           className="popup__form"
           name={`${name}-form`}
           onSubmit={onSubmit}
           noValidate>
           {children}
-          <button type="submit" className="popup__submit-btn">{btnText}</button>
+          <button
+            type="submit"
+            className={`popup__submit-btn ${isValid ? '' : 'popup__submit-btn_inactive'}`}
+            disabled={isValid ? false : true}>
+              {btnText}
+          </button>
         </form>
       </div>
     </section>
   )
-}
+})
 
 export default PopupWithForm
