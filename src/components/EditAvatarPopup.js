@@ -1,39 +1,44 @@
-import { useRef, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
+import { useFormValidation } from '../utils/useFormValidation';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const inputRef = useRef();
-
-  useEffect(() => {
-    inputRef.current.value = '';
-  })
+  const { values, errors, isValid, handleChange, resetValues, formRef } = useFormValidation()
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onUpdateAvatar({
-      avatar: inputRef.current.value,
+      avatar: values['profileAvatarLink'],
     });
+
+    resetValues();
   }
+
+  const errorClassName = (name) => `popup__input-error ${errors[name] ? 'popup__input-error_active' : ''}`
 
   return (
     <PopupWithForm
+      ref={formRef}
       name='avatar'
       title='Обновить аватар'
       btnText='Сохранить'
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      isValid={isValid}>
         <label className="popup__input-wrapper">
           <input
           type="url"
           id="input-link-avatar"
-          name="link"
+          name="profileAvatarLink"
           className="popup__input popup__input_type_avatar"
           placeholder="Ссылка на картинку"
-          ref={inputRef}
+          value={values['profileAvatarLink'] ?? ''}
+          onChange={handleChange}
           required />
-          <span className="popup__input-error input-link-avatar-error"></span>
+          <span className={errorClassName('profileAvatarLink')}>
+            {errors['profileAvatarLink']}
+          </span>
         </label>
     </PopupWithForm>
   )
