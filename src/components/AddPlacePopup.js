@@ -2,7 +2,14 @@ import PopupWithForm from './PopupWithForm';
 import { useFormValidation } from '../utils/useFormValidation';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const { values, errors, isValid, handleChange, resetValues, formRef } = useFormValidation()
+  const {
+    values,
+    errors,
+    isValid,
+    handleChange,
+    resetValues,
+    formRef,
+    errorClassName } = useFormValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -14,8 +21,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
 
     resetValues();
   }
-
-  const errorClassName = (name) => `popup__input-error ${errors[name] ? 'popup__input-error_active' : ''}`
 
   return (
     <PopupWithForm

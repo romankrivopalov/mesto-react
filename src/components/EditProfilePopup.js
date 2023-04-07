@@ -4,8 +4,16 @@ import PopupWithForm from './PopupWithForm';
 import { useFormValidation } from '../utils/useFormValidation';
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
-  const { values, errors, isValid, handleChange, resetValues, setValue, formRef } = useFormValidation()
-  const currentUser = useContext(CurrentUserContext);
+  const {
+    values,
+    errors,
+    isValid,
+    handleChange,
+    resetValues,
+    setValue,
+    formRef,
+    errorClassName } = useFormValidation(),
+  currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     if (currentUser) {
@@ -22,8 +30,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       about: values['userDescription'],
     });
   }
-
-  const errorClassName = (name) => `popup__input-error ${errors[name] ? 'popup__input-error_active' : ''}`
 
   const onClosePopup = () => {
     onClose();

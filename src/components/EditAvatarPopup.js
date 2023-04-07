@@ -2,7 +2,14 @@ import PopupWithForm from './PopupWithForm';
 import { useFormValidation } from '../utils/useFormValidation';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const { values, errors, isValid, handleChange, resetValues, formRef } = useFormValidation()
+  const {
+    values,
+    errors,
+    isValid,
+    handleChange,
+    resetValues,
+    formRef,
+    errorClassName } = useFormValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -13,8 +20,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
     resetValues();
   }
-
-  const errorClassName = (name) => `popup__input-error ${errors[name] ? 'popup__input-error_active' : ''}`
 
   return (
     <PopupWithForm

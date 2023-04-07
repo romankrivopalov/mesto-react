@@ -12,6 +12,7 @@ export function useFormValidation(initialValues ={}) {
 
   const handleChange = ({ target }) => {
     const { name, value, validationMessage } = target;
+
     setValues((oldValues) =>({ ...oldValues, [name]: value }));
     setErrors((oldErrors) =>({ ...oldErrors, [name]: validationMessage }));
   }
@@ -26,5 +27,15 @@ export function useFormValidation(initialValues ={}) {
     setIsValid(formRef.current.checkValidity());
   }, [])
 
-  return { values, errors, isValid, handleChange, resetValues, setValue, formRef }
+  const errorClassName = (name) => `popup__input-error ${errors[name] ? 'popup__input-error_active' : ''}`
+
+  return {
+    values,
+    errors,
+    isValid,
+    handleChange,
+    resetValues,
+    setValue,
+    formRef,
+    errorClassName }
 }
