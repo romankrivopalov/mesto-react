@@ -1,7 +1,7 @@
 import PopupWithForm from './PopupWithForm';
 import { useFormValidation } from '../utils/useFormValidation';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const {
     values,
     errors,
@@ -26,11 +26,9 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       ref={formRef}
       name='avatar'
       title='Обновить аватар'
-      btnText='Сохранить'
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
-      isValid={isValid}>
+      onSubmit={handleSubmit}>
         <label className="popup__input-wrapper">
           <input
           type="url"
@@ -45,6 +43,12 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
             {errors['profileAvatarLink']}
           </span>
         </label>
+        <button
+          type="submit"
+          className={`popup__submit-btn ${isValid ? '' : 'popup__submit-btn_inactive'}`}
+          disabled={isValid ? false : true}>
+            {isLoading ? 'Сохранение...' : 'Сохранить'}
+        </button>
     </PopupWithForm>
   )
 }

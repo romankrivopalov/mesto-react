@@ -1,7 +1,7 @@
 import PopupWithForm from './PopupWithForm';
 import { useFormValidation } from '../utils/useFormValidation';
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   const {
     values,
     errors,
@@ -27,11 +27,9 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       ref={formRef}
       name='card'
       title='Новое место'
-      btnText='Создать'
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
-      isValid={isValid}>
+      onSubmit={handleSubmit}>
         <label className="popup__input-wrapper">
           <input
           type="text"
@@ -59,6 +57,12 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           required/>
           <span className={errorClassName('placeLink')}>{errors['placeLink']}</span>
         </label>
+        <button
+          type="submit"
+          className={`popup__submit-btn ${isValid ? '' : 'popup__submit-btn_inactive'}`}
+          disabled={isValid ? false : true}>
+            {isLoading ? 'Сохранение...' : 'Создать'}
+        </button>
     </PopupWithForm>
   )
 }

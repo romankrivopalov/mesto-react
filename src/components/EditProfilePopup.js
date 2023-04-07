@@ -3,7 +3,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
 import { useFormValidation } from '../utils/useFormValidation';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const {
     values,
     errors,
@@ -44,11 +44,9 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       ref={formRef}
       name='profile'
       title='Редактировать профиль'
-      btnText='Сохранить'
       isOpen={isOpen}
       onClose={onClosePopup}
-      onSubmit={handleSubmit}
-      isValid={isValid}>
+      onSubmit={handleSubmit}>
         <label className="popup__input-wrapper">
           <input
           type="text"
@@ -82,6 +80,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
             {errors['userDescription']}
           </span>
         </label>
+
+        <button
+          type="submit"
+          className={`popup__submit-btn ${isValid ? '' : 'popup__submit-btn_inactive'}`}
+          disabled={isValid ? false : true}>
+            {isLoading ? 'Сохранение...' : 'Сохранить'}
+        </button>
     </PopupWithForm>
   )
 }

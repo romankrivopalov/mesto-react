@@ -3,12 +3,10 @@ import { forwardRef } from 'react';
 const PopupWithForm = forwardRef(({
   name,
   title,
-  btnText,
   isOpen,
   onClose,
   onSubmit,
   children,
-  isValid
   }, ref) => {
 
   return (
@@ -31,12 +29,6 @@ const PopupWithForm = forwardRef(({
           onSubmit={onSubmit}
           noValidate>
           {children}
-          <button
-            type="submit"
-            className={`popup__submit-btn ${isValid ? '' : 'popup__submit-btn_inactive'}`}
-            disabled={isValid ? false : true}>
-              {btnText}
-          </button>
         </form>
       </div>
     </section>

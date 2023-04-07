@@ -1,6 +1,6 @@
 import PopupWithForm from './PopupWithForm';
 
-function ConfirmPopup({ isOpen, onClose, onConfirm }) {
+function ConfirmPopup({ isOpen, onClose, onConfirm, isLoading }) {
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -15,9 +15,14 @@ function ConfirmPopup({ isOpen, onClose, onConfirm }) {
       btnText='Да'
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
-      isValid={true}
-    />
+      onSubmit={handleSubmit}>
+      <button
+        type="submit"
+        className={`popup__submit-btn ${isLoading ? 'popup__submit-btn_inactive' : ''}`}
+        disabled={isLoading ? true : false}>
+        {isLoading ? 'Сохранение...' : 'Сохранить'}
+      </button>
+    </PopupWithForm>
   )
 }
 
