@@ -16,6 +16,7 @@ function ConfirmPopup({ isOpen, onClose, onConfirm }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isValid={true}
     />
   )
 }
