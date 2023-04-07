@@ -21,10 +21,7 @@ const PopupWithForm = forwardRef(({
         }
       }}>
       <div className="popup__container">
-        <button
-          type="button"
-          className="popup__close"
-          onClick={() => onClose()}>
+        <button type="button" className="popup__close">
         </button>
         <h2 className="popup__title">{title}</h2>
         <form
